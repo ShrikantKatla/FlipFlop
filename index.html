@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Flip Flop</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="main.css">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body class="bg-secondary">
+  <header class="mb-4">
+    <div class="container-fluid text-light bg-dark ">
+      <h1 class="text-center mb-0 p-2">FLIP FLOP GAME</h1>
+    </div>
+    <div class="bg-light d-none" id="game_nav">
+        <div class="container d-flex justify-content-between px-0">
+            <button class="btn text-dark font-weight-bold" id="profile_btn">Profile</button>
+            <div class="dropdown">
+                <button type="button" class="btn dropdown-toggle text-dark font-weight-bold" data-toggle="dropdown" id="dropdown_lvl">Level</button>
+                <div class="dropdown-menu">
+                  <button class="dropdown-item dd-lvl" data-value="2-2-level1-10">level-1 (2x2)</button>
+                  <button class="dropdown-item dd-lvl" data-value="2-3-level2-20">level-2 (2x3)</button>
+                  <button class="dropdown-item dd-lvl" data-value="4-3-level3-30">level-3 (4x3)</button>
+                  <button class="dropdown-item dd-lvl" data-value="4-4-level4-40">level-4 (4x4)</button>
+                  <button class="dropdown-item dd-lvl" data-value="4-5-level5-60">level-5 (4x5)</button>
+                </div>
+              </div>
+            <button class="btn text-dark font-weight-bold d-none" id="reset_game">Reset</button>
+            <button class="btn text-dark font-weight-bold" id="high_score_btn">Score</button>
+            <button class="btn text-dark font-weight-bold" id="log_out">Log Out</button>
+        </div>
+    </div>
+  </header>
+  <!-- Button trigger modal -->
+  <div class="container text-center  mb-4">
+    <button type="button" class="btn btn-dark btn-outline-light btn-lg " data-toggle="modal" data-target="#modelId"
+      id="new_game_btn">
+      New Game
+    </button>
+
+  </div>
+  <div class="container border-dark game_wrapper d-none" id="main_game_wrapper">
+    <div class="row justify-content-between align-items-end bg-dark text-light">
+      <div class="col-12 col-sm-auto font-weight-bold">
+        <div>
+          Name: <span id="user_name"></span>
+        </div>
+        <div>
+          Level: <span id="level"></span>
+        </div>
+        <div>
+          Highest Score: <span id="high_score"></span> ( <span id="high_score_name"></span> )
+        </div>
+      </div>
+      <div class="col-12 col-sm-auto font-weight-bold d-flex justify-content-end flex-row-reverse flex-sm-row">
+          <!-- <div><span id="need_help" class="font-weight-light">Need Help &#63;</span></div> -->
+          <div class="px-1"><div id="bonus_score" ></div><div id="bonus_time"></div></div>
+          <div><div>Score: <span id="current_score">0</span></div><div id="timer" data-vale="0">Timer: 0 Sec</div></div>
+      </div>
+
+    </div>
+    <div class="progress progress_div row">
+      <div class="progress-bar active rounded" role="progressbar" id="game_status">
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="game_container text-center d-flex flex-wrap justify-content-center">
+
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="modelId" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" id="modal_title_id"> Game Details</h5>
+          <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="px-sm-4" id="start_game_form">
+
+            <div class="form-row align-items-center mb-3">
+              <div class="col-sm-4 text-sm-right">
+                <label for="grid_select_id" class="mb-0">Difficulty Level</label>
+              </div>
+              <div class="col-sm-8">
+                <select class="form-control" name="select_level" id="grid_select_id">
+                  <option value="select">Select Level</option>
+                  <option value="2-2-level1-10">level-1 (2x2)</option>
+                  <option value="2-3-level2-20">level-2 (2x3)</option>
+                  <option value="4-3-level3-30">level-3 (4x3)</option>
+                  <option value="4-4-level4-40">level-4 (4x4)</option>
+                  <option value="4-5-level5-60">level-5 (4x5)</option>
+                </select>
+                <small class=" d-block text-danger" id="select_error_msg"></small>
+              </div>
+            </div>
+            <div class="form-row align-items-center">
+              <div class="col-sm-4 text-sm-right">
+                <label for="player_name" class="mb-0">Name</label>
+              </div>
+              <div class="col-sm-8">
+                <input type="text" id="player_name" name="player_name" class="form-control" placeholder="Player Name">
+                <small class=" d-block text-danger" id="name_error_msg"></small>
+              </div>
+
+
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-dark" id="modal_start_btn">Start</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="aftergame_modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header justify-content-center" >
+              <h1 class="font-weight-bold text-center" id="modal_header_id">Game Result</h1>
+          </div>
+          <div class="modal-body d-flex align-items-center flex-column" id="modal_body_id">
+            <div class="text-center"><h3 class="mb-0">YOUR SCORE</h3></div><div class="" id="current_final_score"></div>
+            <div ><span id="modal_high_score">HIGH-SCORE </span> <span id="current_high_score_name"></span></div><div class="" id="current_high_score"></div>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-dark" id="ok_btn" data-dismiss="modal" >OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container " id="score_table">
+      <div class="row bg-dark justify-content-center">
+        <h3 class="text-light text-center mb-0 p-2"> <span>ALL TIME</span> <span>HIGH-SCORE</span></h3>
+      </div>
+      <div class="row justify-content-center text-center" >
+        <div class="col-4 font-weight-bold px-0 border border-dark"><h4 class="mb-0 py-2">level</h4></div>
+        <div class="col-4 font-weight-bold px-0 border border-dark"><h4 class="mb-0 py-2">PLAYER NAME</h4></div>
+        <div class="col-4 font-weight-bold px-0 border border-dark"><h4 class="mb-0 py-2">SCORE</h4></div>
+      </div>
+      <div class="row justify-content-center text-center" >
+        <div class="col-4 font-weight-bold px-0 border border-dark py-1">LEVEL-1 (2x2)</div>
+        <div class="col-4 font-weight-bold px-0 border border-dark py-1" id="lvl1-name"></div>
+        <div class="col-4 font-weight-bold px-0 border border-dark py-1" id="lvl1-score"></div>
+      </div>
+      <div class="row justify-content-center text-center" >
+        <div class="col-4 font-weight-bold px-0 border border-dark py-1">LEVEL-2 (2x3)</div>
+        <div class="col-4 font-weight-bold px-0 border border-dark py-1" id="lvl2-name"></div>
+        <div class="col-4 font-weight-bold px-0 border border-dark py-1" id="lvl2-score"></div>
+      </div>
+      <div class="row justify-content-center text-center" >
+        <div class="col-4 font-weight-bold px-0 border border-dark py-1">LEVEL-3 (4x3)</div>
+        <div class="col-4 font-weight-bold px-0 border border-dark py-1" id="lvl3-name"></div>
+        <div class="col-4 font-weight-bold px-0 border border-dark py-1" id="lvl3-score"></div>
+      </div>
+      <div class="row justify-content-center text-center" >
+        <div class="col-4 font-weight-bold px-0 border border-dark py-1">LEVEL-4 (4x4)</div>
+        <div class="col-4 font-weight-bold px-0 border border-dark py-1" id="lvl4-name"></div>
+        <div class="col-4 font-weight-bold px-0 border border-dark py-1" id="lvl4-score"></div>
+      </div>
+      <div class="row justify-content-center text-center" >
+        <div class="col-4 font-weight-bold px-0 border border-dark py-1">LEVEL-5 (4x5)</div>
+        <div class="col-4 font-weight-bold px-0 border border-dark py-1" id="lvl5-name"></div>
+        <div class="col-4 font-weight-bold px-0 border border-dark py-1" id="lvl5-score"></div>
+      </div>
+    </div>
+    <div class="container border-dark game_wrapper d-none" id="player_profile">
+      <div class="row bg-dark justify-content-center mb-1">
+        <h3 class="text-light text-center mb-0 p-2">Player Profile</h3>
+      </div>
+      <div class="font-weight-bold mb-1">
+        Name: <span id="player_user_name"></span>
+      </div>
+      <div class="font-weight-bold mb-1">
+        Games Played: <span id="player_no_games"></span>
+      </div>
+      <div class="font-weight-bold mb-1">
+        Win: <span class="mr-3" id="player_no_win"></span> Loss: <span id="player_no_loss"></span>
+      </div>
+      <div class="font-weight-bold">
+        <div class="mb-1"><h5 class="mb-0 bg-dark text-light text-center">Player All Time High-Score</h5></div>
+        <div class="mb-1">Level-1 (2x2): <span id="player_lvl_1"></span></div>
+        <div class="mb-1">Level-2 (2x3): <span id="player_lvl_2"></span></div>
+        <div class="mb-1">Level-3 (4x3): <span id="player_lvl_3"></span></div>
+        <div class="mb-1">Level-4 (4x4): <span id="player_lvl_4"></span></div>
+        <div class="mb-1">Level-5 (4x5): <span id="player_lvl_5"></span></div>
+      </div>
+    </div>
+    <div class="container d-none text-center" id="banner_wrapper">
+      <div class="row flex-column align-items-center">
+        <img src="images/main_banner.jpg" alt="banner" class="img-fluid col-sm-6 ">
+      <div class="col-sm-6"><h4 class="text-center text-light bg-dark py-2">Play Flip Flop Game With Minions</h4></div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="select_diff_lvl" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header justify-content-center" >
+              <h4 class="font-weight-bold text-center">Start New Game</h4>
+          </div>          
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-dark" id="yes_btn" data-dismiss="modal" >YES</button>
+            <button type="button" class="btn btn-dark" id="no_btn" data-dismiss="modal" >NO</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script> -->
+
+  <script src="main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
